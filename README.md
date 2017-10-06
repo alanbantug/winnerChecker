@@ -14,6 +14,6 @@ This script will allow you to perform the following.
 
 2. Enter a five-digit combination that will be checked for close matches with the winners in the data file selected.
 
-###NOTE###
+### NOTE ###
 
 This script is still a work in progress.
