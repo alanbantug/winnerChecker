@@ -9,6 +9,7 @@ import ttk
 from ttk import *
 
 from tkFileDialog import askdirectory
+from tkFileDialog import askopenfilename
 
 import os
 import shutil
@@ -101,7 +102,7 @@ class Application(Frame):
         #self.sep_t = Separator(self.sourceTarget, orient=HORIZONTAL)
         
         self.statusLabel = Label(self.main_container, text="Select source and target folders", style="G.TLabel")
-        self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.restartProcess)
+        self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.resetProcess)
         self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=root.destroy)
 
         self.progress_bar = Progressbar(self.main_container, orient="horizontal", mode="indeterminate", maximum=50)
@@ -153,11 +154,28 @@ class Application(Frame):
 
     def setSource(self):
 
-        pathname = askdirectory()
+        ''' This function will select a data file and check if it is a Fantasy Five file
+        '''
 
-        if os.path.isdir(pathname):
-            self.sourceLabel["text"] = os.path.dirname(pathname)[:30] + ".../" + os.path.basename(pathname)
-            self.source = pathname
+        filename = askopenfilename()
+
+        if os.path.isfile(filename):
+
+            datafile = open(filename)
+
+            # Read the first record on file
+            d_line = datafile.readline()
+            d_list = d_line.split()
+
+            datafile.close()
+        
+            if "FANTASY" in d_list:
+
+                self.source = filename
+                self.dataLabel["text"] = os.path.dirname(filename)[:15] + ".../" + os.path.basename(filename)
+                
+            else:
+                self.dataLabel["text"] = 'File selected is not a Fantasy Five file'
 
             
     def setTarget(self):
@@ -354,18 +372,16 @@ class Application(Frame):
         sp.Popen(["notepad.exe", "script.bat"])
 
 
-    def restartProcess(self):
+    def resetProcess(self):
         # Launch notepad to show status of last copy request
 
         os.chdir(self.origin)
-        self.statusLabel["text"] = "Select source and target folders"
-        self.sourceLabel["text"] = "None"
-        self.targetLabel["text"] = "None"
-        self.submit["text"] = "START"
-        self.initialize.set(0)
+        self.dataLabel["text"] = "None"
+        self.getMatch3.set(0)
+        self.getMatch4.set(0)
+        self.getMatch5.set(0)
         self.source = ""
-        self.target = ""
-        self.copying = 0
+
 
 root = Tk()
 root.title("FANTASY FIVE CHECKER")
