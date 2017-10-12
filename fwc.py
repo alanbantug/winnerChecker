@@ -133,9 +133,9 @@ class Application(Frame):
         self.dataLabel.grid(row=0, column=0, padx=(180,0), pady=(5, 10), sticky='W')
         self.dataOpt.grid(row=12, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.match3.grid(row=0, column=0, padx=10, pady=5, sticky='W')
-        self.match4.grid(row=0, column=1, padx=10, pady=5, sticky='W')
-        self.match5.grid(row=0, column=2, padx=10, pady=5, sticky='W')
+        self.match3.grid(row=0, column=0, padx=10, pady=(5, 10), sticky='W')
+        self.match4.grid(row=0, column=1, padx=10, pady=(5, 10), sticky='W')
+        self.match5.grid(row=0, column=2, padx=10, pady=(5, 10), sticky='W')
         self.filterOpt.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
         
         self.sep_c.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
@@ -178,63 +178,30 @@ class Application(Frame):
                 self.dataLabel["text"] = 'File selected is not a Fantasy Five file'
 
             
-    def setTarget(self):
-
-        pathname = askdirectory()
-
-        if os.path.isdir(pathname):
-            self.targetLabel["text"] = os.path.dirname(pathname)[:30] + ".../" + os.path.basename(pathname)
-            self.target = pathname
-
-
-    def setScript(self):
-        
-        pathname = askdirectory()
-
-        if os.path.isdir(pathname):
-            self.scriptLabel["text"] = os.path.dirname(pathname)[:30] + ".../" + os.path.basename(pathname)
-            self.script = pathname
-
-
     def startProcess(self):
 
-        if self.submit["text"] == "START":
-            self.checkFolders()
+        self.checkOptions()
             
-            if self.allSet:
-                self.submit["text"] = "PROCESS"
-                self.restart["state"] = "DISABLED"
-                self.statusLabel["text"] = "Click PROCESS to start or RESTART to change settings"
+        if self.allSet:
 
-        else:
-            self.checkFolders()
-            
-            if self.allSet:
-                self.processRequest()
+            self.processRequest()
 
-
-    def checkFolders(self):
+    def checkOptions(self):
 
         self.allSet = True
         
         if self.source == "":
-            self.showMessage("Source folder not yet selected.")
+            self.showMessage("Source file not yet selected.")
             self.allSet = False
             return
 
-        if self.target == "":
-            self.showMessage("Target folder not yet selected.")
-            self.allSet = False
-            return
-
-        if len(os.listdir(self.source)) == 0:
-            self.showMessage("Source folder is empty.")
-            self.allSet = False
-            return
-
-        if self.initialize.get() == 1 and self.submit["text"] == "START":
-            self.showMessage("You have chosen to initialize target folder.")
+        if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.set() == 0:
+            self.showMessage("All 3, 4 and 5 matches will be selected.")
             
+            self.getMatch3.set(1)
+            self.getMatch4.set(1)
+            self.getMatch5.set(1)
+
 
     def showMessage(self, message):
 
@@ -284,13 +251,14 @@ class Application(Frame):
 
         t0 = time()
         
-        # disable all buttons
+        # disable all buttons and check boxes
 
-        self.selectSource["state"] = DISABLED
-        self.selectTarget["state"] = DISABLED
-        self.initTarget["state"] = DISABLED
-        self.restart["state"] = DISABLED
+        self.getMatch3["state"] = DISABLED
+        self.getMatch4["state"] = DISABLED
+        self.getMatch5["state"] = DISABLED
+
         self.submit["state"] = DISABLED
+        self.reset["state"] = DISABLED
         self.exit["state"] = DISABLED
 
         self.statusLabel["text"] = "Processing..."
@@ -338,39 +306,17 @@ class Application(Frame):
                     shutil.copy(os.path.join(folderName, files), os.path.join(self.target, sub))
                     self.copying += 1
 
-        self.selectSource["state"] = NORMAL
-        self.selectTarget["state"] = NORMAL
-        self.initTarget["state"] = NORMAL
-        self.restart["state"] = NORMAL
+        self.getMatch3["state"] = NORMAL
+        self.getMatch4["state"] = NORMAL
+        self.getMatch5["state"] = NORMAL
+
         self.submit["state"] = NORMAL
+        self.reset["state"] = NORMAL
         self.exit["state"] = NORMAL
 
         self.progress_bar.stop()            
-        self.statusLabel["text"] = str(self.copying) + " file(s) copied successfully in %0.1fs." % (time() - t0)
+        #self.statusLabel["text"] = str(self.copying) + " file(s) copied successfully in %0.1fs." % (time() - t0)
         
-
-    def buildScript(self):
-
-        scriptFile = open("script.bat", "w")
-
-        script_line = 'Attention! Delete this line and others that are not needed for the script to run'
-        scriptFile.write(script_line)
-        scriptFile.write("\n")
-        
-        for folderName, subFolders, fileNames in os.walk(self.source):
-
-            for files in fileNames:
-
-                if files[-3:] == '.py':
-
-                    script_line = '@pyw ' + self.target.lower() + '/' + files + ' %*'
-                    scriptFile.write(script_line)
-                    scriptFile.write("\n")
-
-        scriptFile.close()
-
-        sp.Popen(["notepad.exe", "script.bat"])
-
 
     def resetProcess(self):
         # Launch notepad to show status of last copy request
@@ -390,7 +336,7 @@ root.title("FANTASY FIVE CHECKER")
 
 # Set size
 
-wh = 600
+wh = 610
 ww = 480
 
 #root.resizable(height=False, width=False)
