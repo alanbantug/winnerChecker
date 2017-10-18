@@ -195,8 +195,8 @@ class Application(Frame):
             self.allSet = False
             return
 
-        if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.set() == 0:
-            self.showMessage("All 3, 4 and 5 matches will be selected.")
+        if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.get() == 0:
+            #self.showMessage("All 3, 4 and 5 matches will be selected.")
             
             self.getMatch3.set(1)
             self.getMatch4.set(1)
@@ -238,88 +238,35 @@ class Application(Frame):
 
         import threading
 
-        t = threading.Thread(None, self.copyFiles, ())
+        t = threading.Thread(None, self.checkForMatches, ())
         t.start()
 
 
-    def copyFiles(self):
+    def checkForMatches(self):
 
         self.progress_bar.start()
         self.copying = 0
 
-        # get start time
-
-        t0 = time()
-        
         # disable all buttons and check boxes
-
-        self.getMatch3["state"] = DISABLED
-        self.getMatch4["state"] = DISABLED
-        self.getMatch5["state"] = DISABLED
 
         self.submit["state"] = DISABLED
         self.reset["state"] = DISABLED
         self.exit["state"] = DISABLED
 
-        self.statusLabel["text"] = "Processing..."
-        
-        if self.initialize.get() == 1:
-
-            # Target folder will be initialized to ensure that it has same structure as source
-            for folderName, subFolders, fileNames in os.walk(self.target):
-
-                # Delete all files first
-                for file in fileNames:
-                    os.remove(os.path.join(folderName, file))
-
-            for folderName, subFolders, fileNames in os.walk(self.target, topdown=False):
-
-                # Delete all folders in target folder next
-                for folder in subFolders:
-                    os.rmdir(os.path.join(folderName, folder))
-                    
-
-        if self.build.get() == 1:
-
-            self.buildScript()
-
-
-        # Walk thru the source folder, creating subfolders and copying files into the target folder
-        
-        for folderName, subFolders, fileNames in os.walk(self.source):
-
-            for files in fileNames:
-
-                if files[-3:] == '.py':
-
-                    sub = os.path.relpath(folderName, self.source)
-                
-                    # Check if the subfolder already exists in the target folder and create it if it is not
-                
-                    if sub != ".":
-                        if os.path.exists(os.path.join(self.target, sub)):
-                            pass
-                        else:
-                            os.chdir(self.target)
-                            os.makedirs(sub)
-
-                    shutil.copy(os.path.join(folderName, files), os.path.join(self.target, sub))
-                    self.copying += 1
-
-        self.getMatch3["state"] = NORMAL
-        self.getMatch4["state"] = NORMAL
-        self.getMatch5["state"] = NORMAL
+        for i in range(5):
+            self.dataSelect.insert(END, i)
 
         self.submit["state"] = NORMAL
         self.reset["state"] = NORMAL
         self.exit["state"] = NORMAL
 
         self.progress_bar.stop()            
-        #self.statusLabel["text"] = str(self.copying) + " file(s) copied successfully in %0.1fs." % (time() - t0)
         
 
     def resetProcess(self):
         # Launch notepad to show status of last copy request
+
+        self.dataSelect.delete(0, END)
 
         os.chdir(self.origin)
         self.dataLabel["text"] = "None"
