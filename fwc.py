@@ -196,8 +196,7 @@ class Application(Frame):
             return
 
         if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.get() == 0:
-            #self.showMessage("All 3, 4 and 5 matches will be selected.")
-            
+                        
             self.getMatch3.set(1)
             self.getMatch4.set(1)
             self.getMatch5.set(1)
@@ -253,8 +252,10 @@ class Application(Frame):
         self.reset["state"] = DISABLED
         self.exit["state"] = DISABLED
 
-        for i in range(5):
-            self.dataSelect.insert(END, i)
+        self.readDataFile()
+
+        #for i in range(5):
+        #    self.dataSelect.insert(END, i)
 
         self.submit["state"] = NORMAL
         self.reset["state"] = NORMAL
@@ -262,6 +263,56 @@ class Application(Frame):
 
         self.progress_bar.stop()            
         
+
+    def readDataFile(self):
+
+        ''' This function will check for close matches to the numbers entered
+        '''
+
+        # delete the contents of the list 
+        self.dataSelect.delete(0, END)
+
+        search_set = [int(self.numberA.get()), int(self.numberB.get()), int(self.numberC.get()), int(self.numberD.get()), int(self.numberE.get())]
+
+        filename = self.source
+
+        dataFile = open(filename, "r")
+
+        while True:
+        
+            d_line = dataFile.readline()
+
+            if d_line == "":
+                break
+
+            d_list = d_line.split()
+
+            if len(d_list) > 0:
+
+                if d_list[0].isdigit():
+
+                    winner = []
+
+                    for i in range(5, 10):
+                        winner.append(int(d_list[i]))
+
+                    match_ctr = 0
+
+                    for w in winner:
+                        for s in search_set:
+                            if s == w:
+                                match_ctr += 1
+
+                    if match_ctr == 3 and self.getMatch3.get() == 1:
+                        self.dataSelect.insert(END, d_line)
+                    elif match_ctr == 4 and self.getMatch4.get() == 1:
+                        self.dataSelect.insert(END, d_line)
+                    elif match_ctr == 5 and self.getMatch5.get() == 1:
+                        self.dataSelect.insert(END, d_line)
+
+        dataFile.close()
+
+        self.scroller.config(command=self.dataSelect.yview)
 
     def resetProcess(self):
         # Launch notepad to show status of last copy request
