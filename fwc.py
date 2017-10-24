@@ -13,6 +13,7 @@ from tkFileDialog import askopenfilename
 
 import os
 import shutil
+import datetime 
 
 from time import time
 import subprocess as sp
@@ -304,15 +305,42 @@ class Application(Frame):
                                 match_ctr += 1
 
                     if match_ctr == 3 and self.getMatch3.get() == 1:
-                        self.dataSelect.insert(END, d_line)
+                        self.formatOutput(d_line, match_ctr)
                     elif match_ctr == 4 and self.getMatch4.get() == 1:
-                        self.dataSelect.insert(END, d_line)
+                        self.formatOutput(d_line, match_ctr)
                     elif match_ctr == 5 and self.getMatch5.get() == 1:
-                        self.dataSelect.insert(END, d_line)
+                        self.formatOutput(d_line, match_ctr)
 
         dataFile.close()
 
         self.scroller.config(command=self.dataSelect.yview)
+
+    def formatOutput(self, data_line, match_ctr):
+
+        data_list = data_line.split()
+
+        winner_data = []
+
+        # Format draw number
+        draw_number = '{:06d}'.format(int(data_list[0]))
+
+        winner_data.append(draw_number)
+
+        in_date = data_list[2] + ' ' + data_list[3] + ' ' + data_list[4]
+        draw_date = str(datetime.datetime.strptime(in_date, '%b %d, %Y').date())
+
+        winner_data.append(draw_date)
+
+        for i in range(5, 10):
+            number = '{:02d}'.format(int(data_list[i]))
+            winner_data.append(number)
+
+        winner_data.append(str(match_ctr))
+
+        format_data_line = "     |     ".join(winner_data)
+
+        self.dataSelect.insert(END, format_data_line)
+
 
     def resetProcess(self):
         # Launch notepad to show status of last copy request
