@@ -14,6 +14,7 @@ from tkFileDialog import askopenfilename
 import os
 import shutil
 import datetime 
+import tkMessageBox
 
 from time import time
 import subprocess as sp
@@ -186,7 +187,8 @@ class Application(Frame):
         self.allSet = True
         
         if self.source == "":
-            self.showMessage("Source file not yet selected.")
+            tkMessageBox.showerror("File Error", "Source file not yet selected.")
+            #self.showMessage("Source file not yet selected.")
             self.allSet = False
             return
 
