@@ -93,15 +93,11 @@ class Application(Frame):
         self.dataDisplay = LabelFrame(self.main_container, text=' Winner Matches ', style="O.TLabelframe")
         self.scroller = Scrollbar(self.dataDisplay, orient=VERTICAL)
         self.dataSelect = Listbox(self.dataDisplay, yscrollcommand=self.scroller.set, width=70)
-        #self.dataSelect = Listbox(self.dataDisplay)
         
         self.dataOpt = LabelFrame(self.main_container, text=' Data File Options ', style="O.TLabelframe")
         self.dataSource = Button(self.dataOpt, text="DATA FILE", style="B.TButton", width=22, command=self.setSource)
         self.dataLabel = Label(self.dataOpt, text="None", style="B.TLabel" )
 
-        #self.sep_s = Separator(self.sourceTarget, orient=HORIZONTAL)
-        #self.sep_t = Separator(self.sourceTarget, orient=HORIZONTAL)
-        
         self.statusLabel = Label(self.main_container, text="Select source and target folders", style="G.TLabel")
         self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.resetProcess)
         self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=root.destroy)
@@ -124,29 +120,27 @@ class Application(Frame):
         self.submit.grid(row=0, column=0, padx=(290,0), pady=(5, 10), sticky='NSEW')
         self.numberEntry.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.sep_b.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-
-        self.dataSelect.grid(row=0, column=0, padx=(10,0), pady=5, sticky='NSEW')
-        self.scroller.grid(row=0, column=2, padx=(10,0), pady=5, sticky='NSEW')
-        self.dataDisplay.grid(row=7, column=0, columnspan=3, rowspan=5, padx=5, pady=5, sticky='NSEW')
-
-        self.dataSource.grid(row=0, column=0, padx=(10, 0), pady=(5, 10), sticky='W')
-        self.dataLabel.grid(row=0, column=0, padx=(180,0), pady=(5, 10), sticky='W')
-        self.dataOpt.grid(row=12, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-
         self.match3.grid(row=0, column=0, padx=10, pady=(5, 10), sticky='W')
         self.match4.grid(row=0, column=1, padx=10, pady=(5, 10), sticky='W')
         self.match5.grid(row=0, column=2, padx=10, pady=(5, 10), sticky='W')
-        self.filterOpt.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-        
+        self.filterOpt.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+
+        self.sep_b.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+
+        self.dataSelect.grid(row=0, column=0, padx=(10,0), pady=5, sticky='NSEW')
+        self.scroller.grid(row=0, column=2, padx=(10,0), pady=5, sticky='NSEW')
+        self.dataDisplay.grid(row=8, column=0, columnspan=3, rowspan=5, padx=5, pady=5, sticky='NSEW')
+
+        self.dataSource.grid(row=0, column=0, padx=(10, 0), pady=(5, 10), sticky='W')
+        self.dataLabel.grid(row=0, column=0, padx=(180,0), pady=(5, 10), sticky='W')
+        self.dataOpt.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+
         self.sep_c.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.reset.grid(row=15, column=0, padx=(10, 0), pady=5, sticky='W')
         self.exit.grid(row=15, column=0, padx=(245, 0), pady=5, sticky='W')
 
         self.sep_d.grid(row=16, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-        #self.statusLabel.grid(row=15, column=0, columnspan=3, padx=5, pady=0, sticky='NSEW')
-        #self.sep_e.grid(row=15, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
         self.progress_bar.grid(row=17, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.getMatch3.set(0)
