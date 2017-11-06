@@ -188,7 +188,6 @@ class Application(Frame):
         
         if self.source == "":
             tkMessageBox.showerror("File Error", "Source file not yet selected.")
-            #self.showMessage("Source file not yet selected.")
             self.allSet = False
             return
 
@@ -197,37 +196,6 @@ class Application(Frame):
             self.getMatch3.set(1)
             self.getMatch4.set(1)
             self.getMatch5.set(1)
-
-
-    def showMessage(self, message):
-
-        self.popConfirm = Toplevel(self.main_container)
-        self.popConfirm.title("MESSAGE")
-
-        self.messageText = Label(self.popConfirm, text=message, style="MS.TLabel" )
-        self.close = Button(self.popConfirm, text="CLOSE", style="B.TButton", command=self.popConfirm.destroy)
-        self.messageSep = Separator(self.popConfirm, orient=HORIZONTAL)
-
-        self.messageText.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky='NSEW')
-        self.messageSep.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky='NSEW')
-        self.close.grid(row=2, column=0, columnspan=2, padx=5, pady=5, sticky='NSEW')
-
-        pop_wh = 80
-        pop_ww = 300
-
-        self.popConfirm.minsize(pop_ww, pop_wh)
-        self.popConfirm.maxsize(pop_ww, pop_wh)
-
-        # Position in center screen
-
-        pop_ws = self.popConfirm.winfo_screenwidth() 
-        pop_hs = self.popConfirm.winfo_screenheight() 
-
-        # calculate x and y coordinates for the Tk root window
-        x = (pop_ws/2) - (pop_ww/2)
-        y = (pop_hs/2) - (pop_wh/2)
-
-        self.popConfirm.geometry('%dx%d+%d+%d' % (pop_ww, pop_wh, x, y))
 
 
     def processRequest(self):
