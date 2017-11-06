@@ -171,7 +171,8 @@ class Application(Frame):
                 self.dataLabel["text"] = os.path.dirname(filename)[:15] + ".../" + os.path.basename(filename)
                 
             else:
-                self.dataLabel["text"] = 'File selected is not a Fantasy Five file'
+                tkMessageBox.showerror("File Error", "File selected is not a valid Fantasy Five data file.")
+                self.dataLabel["text"] = 'None'
 
             
     def startProcess(self):
