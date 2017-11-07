@@ -310,6 +310,11 @@ class Application(Frame):
     def resetProcess(self):
         # Launch notepad to show status of last copy request
 
+        response = tkMessageBox.askquestion("Reset Process", "Reset process will require selection of new data file. Continue?")
+
+        if response == 'no':
+            return
+
         self.dataSelect.delete(0, END)
 
         os.chdir(self.origin)
@@ -319,6 +324,11 @@ class Application(Frame):
         self.getMatch5.set(0)
         self.source = ""
 
+        self.numberA.set("")
+        self.numberB.set("")
+        self.numberC.set("")
+        self.numberD.set("")
+        self.numberE.set("")
 
 root = Tk()
 root.title("FANTASY FIVE CHECKER")
