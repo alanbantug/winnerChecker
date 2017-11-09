@@ -29,11 +29,8 @@ class Application(Frame):
         # Define the source and target folder variables
         
         self.origin = os.getcwd()
-        self.copied = IntVar()
-        self.copying = 0
+        self.exactMatch = False
         self.source = ""
-        self.target = ""
-        self.script = ""
         self.allSet = True
         self.getMatch3 = IntVar()
         self.getMatch4 = IntVar()
@@ -181,7 +178,11 @@ class Application(Frame):
             
         if self.allSet:
 
-            self.processRequest()
+            self.checkForMatches()
+
+            if self.exactMatch == True:
+                tkMessageBox.showinfo("Exact Match", "An exact combination match was found.")
+
 
     def checkOptions(self):
 
@@ -210,7 +211,6 @@ class Application(Frame):
     def checkForMatches(self):
 
         self.progress_bar.start()
-        self.copying = 0
 
         # disable all buttons and check boxes
 
@@ -219,9 +219,6 @@ class Application(Frame):
         self.exit["state"] = DISABLED
 
         self.readDataFile()
-
-        #for i in range(5):
-        #    self.dataSelect.insert(END, i)
 
         self.submit["state"] = NORMAL
         self.reset["state"] = NORMAL
@@ -234,6 +231,9 @@ class Application(Frame):
 
         ''' This function will check for close matches to the numbers entered
         '''
+
+        # Set indicator for finding exact match to False
+        self.exactMatch = False
 
         # delete the contents of the list 
         self.dataSelect.delete(0, END)
@@ -274,6 +274,7 @@ class Application(Frame):
                     elif match_ctr == 4 and self.getMatch4.get() == 1:
                         self.formatOutput(d_line, match_ctr)
                     elif match_ctr == 5 and self.getMatch5.get() == 1:
+                        self.exactMatch = True
                         self.formatOutput(d_line, match_ctr)
 
         dataFile.close()
