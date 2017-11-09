@@ -8,12 +8,18 @@ This script will allow you to list the previous winners that closely matches you
 
 ## Documentation
 
-This script will allow you to perform the following.
+The scripts in this repository are as follow:
 
-1. Select a data file for the Fantasy Five game in CALottery. This can be downloaded from the CALottery website.
+**fwc.py** - This is the Fantasy Five winner checker. Use this script to check for winning combinations in the Fantasy Five game.
 
-2. Enter a five-digit combination that will be checked for close matches with the winners in the data file selected.
+**swc.py** - This is the Super Lotto winner checker. Use this script to check for winning combinations in the Super Lotto game.
 
-### NOTE ###
+These scripts will allow you to perform the following.
 
-This script is still a work in progress.
+1. Select a data file for the select game. The data files may be downloaded from the CALottery website.  
+
+2. Enter a combination that will be checked for close matches with the winners in the data file selected.
+
+## License ##
+
+To follow.
