@@ -98,7 +98,7 @@ class Application(Frame):
 
         self.statusLabel = Label(self.main_container, text="Select source and target folders", style="G.TLabel")
         self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.resetProcess)
-        self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=root.destroy)
+        self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=self.checkExit)
 
         self.progress_bar = Progressbar(self.main_container, orient="horizontal", mode="indeterminate", maximum=50)
         
@@ -331,10 +331,17 @@ class Application(Frame):
         self.numberD.set("")
         self.numberE.set("")
 
+    def checkExit(self):
+
+        response = tkMessageBox.askquestion("Exit Application", "Are you sure you want to exit the application?")
+
+        if response == 'yes':
+            root.destroy()
+
+
+
 root = Tk()
 root.title("FANTASY FIVE CHECKER")
-#root.minsize(480, 380)
-#root.maxsize(480, 380)
 
 # Set size
 
