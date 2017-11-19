@@ -35,13 +35,13 @@ class Application(Frame):
         self.getMatch3 = IntVar()
         self.getMatch4 = IntVar()
         self.getMatch5 = IntVar()
-        self.getMatchF = IntVar()
+        self.getMatchSuper = IntVar()
         self.numberA = StringVar()
         self.numberB = StringVar()
         self.numberC = StringVar()
         self.numberD = StringVar()
         self.numberE = StringVar()
-        self.numberF = StringVar()
+        self.numberSuper = StringVar()
         
         # Create main frame
         self.main_container.grid(column=0, row=0, sticky=(N,S,E,W))
@@ -84,13 +84,14 @@ class Application(Frame):
         self.numC = Entry(self.numberEntry, textvariable=self.numberC, width="5")
         self.numD = Entry(self.numberEntry, textvariable=self.numberD, width="5")
         self.numE = Entry(self.numberEntry, textvariable=self.numberE, width="5")
-        self.numF = Entry(self.numberEntry, textvariable=self.numberF, width="5")
+        self.numSuper = Entry(self.numberEntry, textvariable=self.numberSuper, width="5")
         self.superLabel = Label(self.numberEntry, text="SUPER", width="7", style="S.TLabel")
 
-        self.filterOpt = LabelFrame(self.main_container, text=' Filter Options ', style="O.TLabelframe")
-        self.match3 = Checkbutton(self.filterOpt, text=' Match 3 Numbers ', style="B.TCheckbutton", variable=self.getMatch3)
-        self.match4 = Checkbutton(self.filterOpt, text=' Match 4 Numbers ', style="B.TCheckbutton", variable=self.getMatch4)
-        self.match5 = Checkbutton(self.filterOpt, text=' Match 5 Numbers ', style="B.TCheckbutton", variable=self.getMatch5)
+        self.filterOpt = LabelFrame(self.main_container, text=' Match Filter Options ', style="O.TLabelframe")
+        self.match3 = Checkbutton(self.filterOpt, text=' 3 Numbers ', style="B.TCheckbutton", variable=self.getMatch3)
+        self.match4 = Checkbutton(self.filterOpt, text=' 4 Numbers  ', style="B.TCheckbutton", variable=self.getMatch4)
+        self.match5 = Checkbutton(self.filterOpt, text=' 5 Numbers  ', style="B.TCheckbutton", variable=self.getMatch5)
+        self.matchSuper = Checkbutton(self.filterOpt, text=' Super ', style="B.TCheckbutton", variable=self.getMatchSuper)
 
         self.dataDisplay = LabelFrame(self.main_container, text=' Winner Matches ', style="O.TLabelframe")
         self.scroller = Scrollbar(self.dataDisplay, orient=VERTICAL)
@@ -120,13 +121,14 @@ class Application(Frame):
         self.numD.grid(row=0, column=0, padx=(145,0), pady=(5, 10), sticky='W')
         self.numE.grid(row=0, column=0, padx=(190,0), pady=(5, 10), sticky='W')
         self.superLabel.grid(row=0, column=0, padx=(240,0), pady=(5, 10), sticky='W')
-        self.numF.grid(row=0, column=0, padx=(295,0), pady=(5, 10), sticky='W')
+        self.numSuper.grid(row=0, column=0, padx=(295,0), pady=(5, 10), sticky='W')
         self.submit.grid(row=0, column=0, padx=(350,0), pady=(5, 10), sticky='W')
         self.numberEntry.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.match3.grid(row=0, column=0, padx=10, pady=(5, 10), sticky='W')
-        self.match4.grid(row=0, column=1, padx=10, pady=(5, 10), sticky='W')
-        self.match5.grid(row=0, column=2, padx=10, pady=(5, 10), sticky='W')
+        self.match3.grid(row=0, column=0, padx=(10,0), pady=(5, 10), sticky='W')
+        self.match4.grid(row=0, column=0, padx=(120,0), pady=(5, 10), sticky='W')
+        self.match5.grid(row=0, column=0, padx=(230,0), pady=(5, 10), sticky='W')
+        self.matchSuper.grid(row=0, column=0, padx=(340,0), pady=(5, 10), sticky='W')
         self.filterOpt.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.sep_b.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
@@ -150,6 +152,7 @@ class Application(Frame):
         self.getMatch3.set(0)
         self.getMatch4.set(0)
         self.getMatch5.set(0)
+        self.getMatchSuper.set(0)
 
     def setSource(self):
 
@@ -199,11 +202,12 @@ class Application(Frame):
             self.allSet = False
             return
 
-        if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.get() == 0:
+        if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.get() == 0 and self.getMatchSuper.get() == 0:
                         
             self.getMatch3.set(1)
             self.getMatch4.set(1)
             self.getMatch5.set(1)
+            self.getMatchSuper.set(1)
 
 
     def processRequest(self):
@@ -245,6 +249,7 @@ class Application(Frame):
         self.dataSelect.delete(0, END)
 
         search_set = [int(self.numberA.get()), int(self.numberB.get()), int(self.numberC.get()), int(self.numberD.get()), int(self.numberE.get())]
+        search_super = int(self.numberSuper.get())
 
         filename = self.source
 
@@ -268,6 +273,8 @@ class Application(Frame):
                     for i in range(5, 10):
                         winner.append(int(d_list[i]))
 
+                    winner_super = int(d_list[10])
+
                     match_ctr = 0
 
                     for w in winner:
@@ -276,18 +283,34 @@ class Application(Frame):
                                 match_ctr += 1
 
                     if match_ctr == 3 and self.getMatch3.get() == 1:
-                        self.formatOutput(d_line, match_ctr)
+                        if search_super == winner_super and self.getMatchSuper.get() == 1:
+                            self.formatOutput(d_line, match_ctr, 1)
+                        else:
+                            self.formatOutput(d_line, match_ctr, 0)
+
                     elif match_ctr == 4 and self.getMatch4.get() == 1:
-                        self.formatOutput(d_line, match_ctr)
+                        if search_super == winner_super and self.getMatchSuper.get() == 1:
+                            self.formatOutput(d_line, match_ctr, 1)
+                        else:
+                            self.formatOutput(d_line, match_ctr, 0)
+
                     elif match_ctr == 5 and self.getMatch5.get() == 1:
-                        self.exactMatch = True
-                        self.formatOutput(d_line, match_ctr)
+                        if search_super == winner_super and self.getMatchSuper.get() == 1:
+                            self.exactMatch = True
+                            self.formatOutput(d_line, match_ctr, 1)
+                        else:
+                            self.formatOutput(d_line, match_ctr, 0)
+
+                    if search_super == winner_super and self.getMatchSuper.get() == 1:
+                        self.formatOutput(d_line, match_ctr, 1)
+
+
 
         dataFile.close()
 
         self.scroller.config(command=self.dataSelect.yview)
 
-    def formatOutput(self, data_line, match_ctr):
+    def formatOutput(self, data_line, match_ctr, super_ctr):
 
         data_list = data_line.split()
 
@@ -309,7 +332,11 @@ class Application(Frame):
 
         winner_data.append(str(match_ctr))
 
-        format_data_line = "     |     ".join(winner_data)
+        winner_data.append('{:02d}'.format(int(data_list[10])))
+
+        winner_data.append(str(super_ctr))
+
+        format_data_line = "   |   ".join(winner_data)
 
         self.dataSelect.insert(END, format_data_line)
 
