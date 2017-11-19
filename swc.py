@@ -356,6 +356,7 @@ class Application(Frame):
         self.getMatch3.set(0)
         self.getMatch4.set(0)
         self.getMatch5.set(0)
+        self.getMatchSuper.set(0)
         self.source = ""
 
         self.numberA.set("")
@@ -363,6 +364,7 @@ class Application(Frame):
         self.numberC.set("")
         self.numberD.set("")
         self.numberE.set("")
+        self.numberSuper.set("")
 
     def checkExit(self):
 
