@@ -110,36 +110,35 @@ class Application(Frame):
 
         self.sep_a.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
+        self.dataSelect.grid(row=0, column=0, padx=(10,0), pady=5, sticky='NSEW')
+        self.scroller.grid(row=0, column=2, padx=(10,0), pady=5, sticky='NSEW')
+        self.dataDisplay.grid(row=5, column=0, columnspan=3, rowspan=5, padx=5, pady=5, sticky='NSEW')
+
+        self.sep_b.grid(row=10, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        
         self.numA.grid(row=0, column=0, padx=(10,0), pady=(5, 10), sticky='W')
         self.numB.grid(row=0, column=0, padx=(65,0), pady=(5, 10), sticky='W')
         self.numC.grid(row=0, column=0, padx=(120,0), pady=(5, 10), sticky='W')
         self.numD.grid(row=0, column=0, padx=(175,0), pady=(5, 10), sticky='W')
         self.numE.grid(row=0, column=0, padx=(230,0), pady=(5, 10), sticky='W')
         self.submit.grid(row=0, column=0, padx=(290,0), pady=(5, 10), sticky='NSEW')
-        self.numberEntry.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.numberEntry.grid(row=11, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.match3.grid(row=0, column=0, padx=10, pady=(5, 10), sticky='W')
         self.match4.grid(row=0, column=1, padx=10, pady=(5, 10), sticky='W')
         self.match5.grid(row=0, column=2, padx=10, pady=(5, 10), sticky='W')
-        self.filterOpt.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.filterOpt.grid(row=12, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.sep_b.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-
-        self.dataSelect.grid(row=0, column=0, padx=(10,0), pady=5, sticky='NSEW')
-        self.scroller.grid(row=0, column=2, padx=(10,0), pady=5, sticky='NSEW')
-        self.dataDisplay.grid(row=8, column=0, columnspan=3, rowspan=5, padx=5, pady=5, sticky='NSEW')
+        self.sep_c.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.dataSource.grid(row=0, column=0, padx=(10, 0), pady=(5, 10), sticky='W')
         self.dataLabel.grid(row=0, column=0, padx=(180,0), pady=(5, 10), sticky='W')
-        self.dataOpt.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.dataOpt.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.sep_c.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.sep_d.grid(row=15, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.reset.grid(row=15, column=0, padx=(10, 0), pady=5, sticky='W')
-        self.exit.grid(row=15, column=0, padx=(245, 0), pady=5, sticky='W')
-
-        self.sep_d.grid(row=16, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
-        self.progress_bar.grid(row=17, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.reset.grid(row=16, column=0, padx=(10, 0), pady=5, sticky='W')
+        self.exit.grid(row=16, column=0, padx=(245, 0), pady=5, sticky='W')
 
         self.getMatch3.set(0)
         self.getMatch4.set(0)
@@ -198,14 +197,6 @@ class Application(Frame):
             self.getMatch3.set(1)
             self.getMatch4.set(1)
             self.getMatch5.set(1)
-
-
-    def processRequest(self):
-
-        import threading
-
-        t = threading.Thread(None, self.checkForMatches, ())
-        t.start()
 
 
     def checkForMatches(self):
