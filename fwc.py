@@ -45,7 +45,7 @@ class Application(Frame):
         self.main_container.grid(column=0, row=0, sticky=(N,S,E,W))
 
         # Set Label styles
-        Style().configure("M.TLabel", font="Courier 20 bold", height="20", foreground="blue", background="white", anchor="center")
+        Style().configure("M.TLabel", font="Courier 20 bold", height="20", foreground="blue", anchor="center")
         Style().configure("B.TLabel", font="Verdana 8", background="white", width="38")
         Style().configure("MS.TLabel", font="Verdana 10" )
         Style().configure("S.TLabel", font="Verdana 8" )
@@ -93,10 +93,10 @@ class Application(Frame):
         self.dataSelect = Listbox(self.dataDisplay, yscrollcommand=self.scroller.set, width=70)
         
         self.dataOpt = LabelFrame(self.main_container, text=' Data File Options ', style="O.TLabelframe")
-        self.dataSource = Button(self.dataOpt, text="DATA FILE", style="B.TButton", width=22, command=self.setSource)
+        self.dataSource = Button(self.dataOpt, text="SELECT DATA FILE", style="B.TButton", width=22, command=self.setSource)
+        self.dataDownload = Button(self.dataOpt, text="DOWNLOAD DATA FILE", style="B.TButton", width=22, command=self.setSource)
         self.dataLabel = Label(self.dataOpt, text="None", style="B.TLabel" )
 
-        self.statusLabel = Label(self.main_container, text="Select source and target folders", style="G.TLabel")
         self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.resetProcess)
         self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=self.checkExit)
 
@@ -131,8 +131,9 @@ class Application(Frame):
 
         self.sep_c.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.dataSource.grid(row=0, column=0, padx=(10, 0), pady=(5, 10), sticky='W')
-        self.dataLabel.grid(row=0, column=0, padx=(180,0), pady=(5, 10), sticky='W')
+        self.dataLabel.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky='NSEW')
+        self.dataSource.grid(row=1, column=0, padx=10, pady=(5, 10), sticky='NSEW')
+        self.dataDownload.grid(row=1, column=2, padx=10, pady=(5, 10), sticky='NSEW')
         self.dataOpt.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.sep_d.grid(row=15, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
@@ -336,7 +337,7 @@ root.title("FANTASY FIVE CHECKER")
 
 # Set size
 
-wh = 610
+wh = 600
 ww = 480
 
 #root.resizable(height=False, width=False)
