@@ -326,10 +326,13 @@ class Application(Frame):
 
     def checkExit(self):
 
-        response = messagebox.askquestion("Exit Application", "Are you sure you want to exit the application?")
-
-        if response == 'yes':
+        if self.dataSelect.size() == 0:
             root.destroy()
+        else:
+            response = messagebox.askquestion("Exit Application", "Are you sure you want to exit the application?")
+
+            if response == 'yes':
+                root.destroy()
 
 
 
