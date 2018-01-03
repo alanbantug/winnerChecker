@@ -1,20 +1,21 @@
-#! python3
+#! python
 
-### This utility will copy a folder and its contents into a different folder
-###
-import Tkinter
-from Tkinter import *
+''' This utility will copy a folder and its contents into a different folder
+'''
+import tkinter 
+from tkinter import *
+ 
+#from tkinter import ttk
+from tkinter.ttk import *
+from tkinter import messagebox
 
-import ttk
-from ttk import *
-
-from tkFileDialog import askdirectory
-from tkFileDialog import askopenfilename
+from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askopenfilename
 
 import os
 import shutil
 import datetime 
-import tkMessageBox
+
 
 from time import time
 import subprocess as sp
@@ -168,7 +169,7 @@ class Application(Frame):
                 self.dataLabel["text"] = os.path.dirname(filename)[:15] + ".../" + os.path.basename(filename)
                 
             else:
-                tkMessageBox.showerror("File Error", "File selected is not a valid Fantasy Five data file.")
+                messagebox.showerror("File Error", "File selected is not a valid Fantasy Five data file.")
                 self.dataLabel["text"] = 'None'
 
             
@@ -181,7 +182,7 @@ class Application(Frame):
             self.checkForMatches()
 
             if self.exactMatch == True:
-                tkMessageBox.showinfo("Exact Match", "An exact combination match was found.")
+                messagebox.showinfo("Exact Match", "An exact combination match was found.")
 
 
     def checkOptions(self):
@@ -189,7 +190,7 @@ class Application(Frame):
         self.allSet = True
         
         if self.source == "":
-            tkMessageBox.showerror("File Error", "Source file not yet selected.")
+            messagebox.showerror("File Error", "Source file not yet selected.")
             self.allSet = False
             return
 
@@ -303,7 +304,7 @@ class Application(Frame):
     def resetProcess(self):
         # Launch notepad to show status of last copy request
 
-        response = tkMessageBox.askquestion("Reset Process", "Reset process will require selection of new data file. Continue?")
+        response = messagebox.askquestion("Reset Process", "Reset process will require selection of new data file. Continue?")
 
         if response == 'no':
             return
@@ -325,7 +326,7 @@ class Application(Frame):
 
     def checkExit(self):
 
-        response = tkMessageBox.askquestion("Exit Application", "Are you sure you want to exit the application?")
+        response = messagebox.askquestion("Exit Application", "Are you sure you want to exit the application?")
 
         if response == 'yes':
             root.destroy()
