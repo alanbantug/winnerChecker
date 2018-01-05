@@ -94,10 +94,11 @@ class Application(Frame):
         self.dataSelect = Listbox(self.dataDisplay, yscrollcommand=self.scroller.set, width=70)
         
         self.dataOpt = LabelFrame(self.main_container, text=' Data File Options ', style="O.TLabelframe")
-        self.dataSource = Button(self.dataOpt, text="SELECT DATA FILE", style="B.TButton", width=22, command=self.setSource)
-        self.dataDownload = Button(self.dataOpt, text="DOWNLOAD DATA FILE", style="B.TButton", width=22, command=self.setSource)
-        self.dataLabel = Label(self.dataOpt, text="None", style="B.TLabel" )
+        self.dataLabel = Label(self.dataOpt, text="None", width=62, style="B.TLabel" )
 
+        self.dataSource = Button(self.dataOpt, text="SELECT DATA FILE", style="B.TButton", width=28, command=self.setSource)
+        self.dataDownload = Button(self.dataOpt, text="DOWNLOAD DATA FILE", style="B.TButton", width=28, command=self.setSource)
+        
         self.reset = Button(self.main_container, text="RESET", style="B.TButton", width=30, command=self.resetProcess)
         self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=self.checkExit)
 
@@ -125,22 +126,22 @@ class Application(Frame):
         self.submit.grid(row=0, column=0, padx=(290,0), pady=(5, 10), sticky='NSEW')
         self.numberEntry.grid(row=11, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.match3.grid(row=0, column=0, padx=10, pady=(5, 10), sticky='W')
-        self.match4.grid(row=0, column=1, padx=10, pady=(5, 10), sticky='W')
-        self.match5.grid(row=0, column=2, padx=10, pady=(5, 10), sticky='W')
+        self.match3.grid(row=0, column=0, padx=(10,0), pady=(5, 10), sticky='W')
+        self.match4.grid(row=0, column=0, padx=(170,0), pady=(5, 10), sticky='W')
+        self.match5.grid(row=0, column=0, padx=(330,0), pady=(5, 10), sticky='W')
         self.filterOpt.grid(row=12, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.sep_c.grid(row=13, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
         self.dataLabel.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky='NSEW')
-        self.dataSource.grid(row=1, column=0, padx=10, pady=(5, 10), sticky='NSEW')
-        self.dataDownload.grid(row=1, column=2, padx=10, pady=(5, 10), sticky='NSEW')
+        self.dataSource.grid(row=1, column=0, padx=(15,0), pady=(5, 10), sticky='W')
+        self.dataDownload.grid(row=1, column=0, padx=(240,0), pady=(5, 10), sticky='W')
         self.dataOpt.grid(row=14, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.sep_d.grid(row=15, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
+        self.sep_d.grid(row=16, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
 
-        self.reset.grid(row=16, column=0, padx=(10, 0), pady=5, sticky='W')
-        self.exit.grid(row=16, column=0, padx=(245, 0), pady=5, sticky='W')
+        self.reset.grid(row=17, column=0, padx=(10, 0), pady=5, sticky='W')
+        self.exit.grid(row=17, column=0, padx=(245, 0), pady=5, sticky='W')
 
         self.getMatch3.set(0)
         self.getMatch4.set(0)
@@ -341,7 +342,7 @@ root.title("FANTASY FIVE CHECKER")
 
 # Set size
 
-wh = 600
+wh = 605
 ww = 480
 
 #root.resizable(height=False, width=False)
