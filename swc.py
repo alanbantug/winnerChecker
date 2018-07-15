@@ -2,19 +2,19 @@
 
 ### This utility will copy a folder and its contents into a different folder
 ###
-import Tkinter
-from Tkinter import *
+import tkinter
+from tkinter import *
 
-import ttk
-from ttk import *
+#from tkinter import ttk
+from tkinter.ttk import *
+from tkinter import messagebox
 
-from tkFileDialog import askdirectory
-from tkFileDialog import askopenfilename
+from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askopenfilename
 
 import os
 import shutil
-import datetime 
-import tkMessageBox
+import datetime
 
 from time import time
 import subprocess as sp
@@ -22,12 +22,12 @@ import subprocess as sp
 class Application(Frame):
 
     def __init__(self, master):
-        
+
         self.master = master
         self.main_container = Frame(self.master)
 
         # Define the source and target folder variables
-        
+
         self.origin = os.getcwd()
         self.exactMatch = False
         self.source = ""
@@ -42,7 +42,7 @@ class Application(Frame):
         self.numberD = StringVar()
         self.numberE = StringVar()
         self.numberSuper = StringVar()
-        
+
         # Create main frame
         self.main_container.grid(column=0, row=0, sticky=(N,S,E,W))
 
@@ -62,9 +62,9 @@ class Application(Frame):
         Style().configure("L.TListbox", font="Verdana 8", width="40")
         Style().configure("E.TEntrybox", width="10")
 
-        
+
         Style().configure("O.TLabelframe.Label", font="Verdana 8", foreground="black")
-        
+
         # Create widgets
         self.sep_a = Separator(self.main_container, orient=HORIZONTAL)
         self.sep_b = Separator(self.main_container, orient=HORIZONTAL)
@@ -96,7 +96,7 @@ class Application(Frame):
         self.dataDisplay = LabelFrame(self.main_container, text=' Winner Matches ', style="O.TLabelframe")
         self.scroller = Scrollbar(self.dataDisplay, orient=VERTICAL)
         self.dataSelect = Listbox(self.dataDisplay, yscrollcommand=self.scroller.set, width=70)
-        
+
         self.dataOpt = LabelFrame(self.main_container, text=' Data File Options ', style="O.TLabelframe")
         self.dataSource = Button(self.dataOpt, text="DATA FILE", style="B.TButton", width=22, command=self.setSource)
         self.dataLabel = Label(self.dataOpt, text="None", style="B.TLabel" )
@@ -106,8 +106,8 @@ class Application(Frame):
         self.exit = Button(self.main_container, text="EXIT", style="B.TButton", width=30, command=self.checkExit)
 
         self.progress_bar = Progressbar(self.main_container, orient="horizontal", mode="indeterminate", maximum=50)
-        
-        # Position widgets        
+
+        # Position widgets
         self.mainLabel.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky='NSEW')
         self.subLabelA.grid(row=1, column=0, columnspan=3, padx=5, pady=0, sticky='NSEW')
         self.subLabelB.grid(row=2, column=0, columnspan=3, padx=5, pady=0, sticky='NSEW')
@@ -170,40 +170,40 @@ class Application(Frame):
             d_list = d_line.split()
 
             datafile.close()
-        
+
             if "SUPERLOTTO" in d_list:
 
                 self.source = filename
                 self.dataLabel["text"] = os.path.dirname(filename)[:15] + ".../" + os.path.basename(filename)
-                
+
             else:
-                tkMessageBox.showerror("File Error", "File selected is not a valid Super Lotto data file.")
+                messagebox.showerror("File Error", "File selected is not a valid Super Lotto data file.")
                 self.dataLabel["text"] = 'None'
 
-            
+
     def startProcess(self):
 
         self.checkOptions()
-            
+
         if self.allSet:
 
             self.checkForMatches()
 
             if self.exactMatch == True:
-                tkMessageBox.showinfo("Exact Match", "An exact combination match was found.")
+                messagebox.showinfo("Exact Match", "An exact combination match was found.")
 
 
     def checkOptions(self):
 
         self.allSet = True
-        
+
         if self.source == "":
-            tkMessageBox.showerror("File Error", "Source file not yet selected.")
+            messagebox.showerror("File Error", "Source file not yet selected.")
             self.allSet = False
             return
 
         if self.getMatch3.get() == 0 and self.getMatch4.get() == 0 and self.getMatch5.get() == 0 and self.getMatchSuper.get() == 0:
-                        
+
             self.getMatch3.set(1)
             self.getMatch4.set(1)
             self.getMatch5.set(1)
@@ -234,8 +234,8 @@ class Application(Frame):
         self.reset["state"] = NORMAL
         self.exit["state"] = NORMAL
 
-        self.progress_bar.stop()            
-        
+        self.progress_bar.stop()
+
 
     def readDataFile(self):
 
@@ -245,7 +245,7 @@ class Application(Frame):
         # Set indicator for finding exact match to False
         self.exactMatch = False
 
-        # delete the contents of the list 
+        # delete the contents of the list
         self.dataSelect.delete(0, END)
 
         search_set = [int(self.numberA.get()), int(self.numberB.get()), int(self.numberC.get()), int(self.numberD.get()), int(self.numberE.get())]
@@ -256,7 +256,7 @@ class Application(Frame):
         dataFile = open(filename, "r")
 
         while True:
-        
+
             d_line = dataFile.readline()
 
             if d_line == "":
@@ -304,8 +304,6 @@ class Application(Frame):
                     if search_super == winner_super and self.getMatchSuper.get() == 1:
                         self.formatOutput(d_line, match_ctr, 1)
 
-
-
         dataFile.close()
 
         self.scroller.config(command=self.dataSelect.yview)
@@ -344,7 +342,7 @@ class Application(Frame):
     def resetProcess(self):
         # Launch notepad to show status of last copy request
 
-        response = tkMessageBox.askquestion("Reset Process", "Reset process will require selection of new data file. Continue?")
+        response = messagebox.askquestion("Reset Process", "Reset process will require selection of new data file. Continue?")
 
         if response == 'no':
             return
@@ -368,7 +366,7 @@ class Application(Frame):
 
     def checkExit(self):
 
-        response = tkMessageBox.askquestion("Exit Application", "Are you sure you want to exit the application?")
+        response = messagebox.askquestion("Exit Application", "Are you sure you want to exit the application?")
 
         if response == 'yes':
             root.destroy()
@@ -390,8 +388,8 @@ root.maxsize(ww, wh)
 
 # Position in center screen
 
-ws = root.winfo_screenwidth() 
-hs = root.winfo_screenheight() 
+ws = root.winfo_screenwidth()
+hs = root.winfo_screenheight()
 
 # calculate x and y coordinates for the Tk root window
 x = (ws/2) - (ww/2)
