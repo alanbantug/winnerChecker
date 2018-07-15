@@ -18,6 +18,9 @@ class dataDownload(object):
 
     def getFileLocation(self, baseUrl):
 
+        ''' This function will parse the CALottery website and get the location of the winning numbers
+        '''
+
         r = requests.get(baseUrl)
 
         soup = BeautifulSoup(r.text, 'html.parser')
@@ -38,6 +41,9 @@ class dataDownload(object):
         return fileObject
 
     def writeToFile(self, saveName, fileObject):
+
+        ''' This function will convert data from the downloaded file into text and write it to name provided
+        '''
 
         with open(saveName, 'w') as o_file:
 
